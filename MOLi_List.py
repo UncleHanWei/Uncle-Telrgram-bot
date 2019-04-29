@@ -54,7 +54,7 @@ def handle(msg):
 
 
 myFile = open('TOKEN.txt')
-TOKEN = myFile.read()
+TOKEN = myFile.read().strip()
 # TOKEN = lines[0]
 bot = telepot.Bot(TOKEN)
 MessageLoop(bot, handle).run_as_thread()
