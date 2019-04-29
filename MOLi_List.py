@@ -36,8 +36,7 @@ def handle(msg):
     # bot.sendMessage(chat_id, msg['text'])
     # bot.sendMessage(chat_id, 'Hi')
 
-
-    if msg['text'] == 'MOLi_list' :
+    if msg['text'] == '/list' :
         bot.sendMessage(chat_id, 'Here it is', reply_to_message_id = msg['message_id'])
         bot.sendMessage(chat_id, myRead())
     if 'MOLi_new' in msg['text'] :
