@@ -44,9 +44,9 @@ def handle(msg):
             if i not in myRead() :
                 myWrite(i)
                 bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
-                nowCmd = ''
             else :
                 bot.sendMessage(chat_id, i + ' is already in the list !', reply_to_message_id = msg['message_id'])
+        nowCmd = ''
     
     elif nowCmd == '/delete' :
         tmp = msg['text'].split('\n')
@@ -54,9 +54,9 @@ def handle(msg):
             if i in myRead() :
                 myDel(i)
                 bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
-                nowCmd = ''
             else :
                 bot.sendMessage(chat_id, i + ' is not in the list !', reply_to_message_id = msg['message_id'])
+        nowCmd = ''
     
     else:
         if msg['text'] == '/list' :
