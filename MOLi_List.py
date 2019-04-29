@@ -29,30 +29,49 @@ def myRead() :
     return message
 
 def handle(msg):
+    global nowCmd
     content_type, chat_type, chat_id = telepot.glance(msg)
     # print(content_type, chat_type, chat_id)
     # print(msg)
     # if content_type == 'text':
     # bot.sendMessage(chat_id, msg['text'])
     # bot.sendMessage(chat_id, 'Hi')
+    if nowCmd == '/new' :
+        # 把收到的使用者訊息分成 list 再存入清單
+        tmp = msg['text'].split('\n')
+        # 檢查輸入的資料
+        for i in tmp :
+            if i not in myRead() :
+                myWrite(i)
+                bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
+                nowCmd = ''
+            else :
+                bot.sendMessage(chat_id, i + ' is already in the list !', reply_to_message_id = msg['message_id'])
+    
+    elif nowCmd == '/delete' :
+        tmp = msg['text'].split('\n')
+        for i in tmp :
+            if i in myRead() :
+                myDel(i)
+                bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
+                nowCmd = ''
+            else :
+                bot.sendMessage(chat_id, i + ' is not in the list !', reply_to_message_id = msg['message_id'])
+    
+    else:
+        if msg['text'] == '/list' :
+            bot.sendMessage(chat_id, 'Here it is', reply_to_message_id = msg['message_id'])
+            bot.sendMessage(chat_id, myRead())
+        
+        if msg['text'] == '/new' :
+            nowCmd = '/new'
+            bot.sendMessage(chat_id, 'now please send me items you want to add')
+        
+        if msg['text'] == '/delete':
+            nowCmd = '/delete'
+            bot.sendMessage(chat_id, 'now please send me items you want to delete')
 
-    if msg['text'] == '/list' :
-        bot.sendMessage(chat_id, 'Here it is', reply_to_message_id = msg['message_id'])
-        bot.sendMessage(chat_id, myRead())
-    if 'MOLi_new' in msg['text'] :
-        if msg['text'].replace('MOLi_new', '').replace(' ', '') not in myRead() :
-            myWrite(msg['text'])
-            bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
-        else :
-            bot.sendMessage(chat_id, 'It\'s already in the list !', reply_to_message_id = msg['message_id'])
-    if 'MOLi_del' in msg['text'] :
-        if msg['text'].replace('MOLi_del', '').replace(' ', '') in myRead() :
-            myDel(msg['text'].replace('MOLi_del', '').replace(' ', ''))
-            bot.sendMessage(chat_id, 'done', reply_to_message_id = msg['message_id'])
-        else :
-            bot.sendMessage(chat_id, 'It\'s not in the list !', reply_to_message_id = msg['message_id'])
-
-
+nowCmd = ''
 myFile = open('TOKEN.txt')
 TOKEN = myFile.read().strip()
 # TOKEN = lines[0]
