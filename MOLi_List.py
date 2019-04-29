@@ -38,7 +38,7 @@ def handle(msg):
     # bot.sendMessage(chat_id, 'Hi')
     if nowCmd == '/new' :
         # 把收到的使用者訊息分成 list 再存入清單
-        tmp = msg['text'].split('\n')
+        tmp = msg['text'].splitlines()
         # 檢查輸入的資料
         for i in tmp :
             if i not in myRead() :
@@ -49,7 +49,7 @@ def handle(msg):
         nowCmd = ''
     
     elif nowCmd == '/delete' :
-        tmp = msg['text'].split('\n')
+        tmp = msg['text'].splitlines()
         for i in tmp :
             if i in myRead() :
                 myDel(i)
