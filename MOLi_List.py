@@ -15,7 +15,7 @@ def myDel(message) :
 
 def myWrite(message) :
     MOLi_list = open('MOLi_list.txt', mode = 'a+', encoding = 'utf8')
-    MOLi_list.write('\n' + message.replace('MOLi_new', '').replace(' ', ''))
+    MOLi_list.write(message.replace('MOLi_new', '').replace(' ', '') + '\n')
     MOLi_list.close()
 
 
@@ -24,7 +24,7 @@ def myRead() :
     allList = MOLi_list.readlines()
     message = ''
     for i in allList :
-        message = message + i
+        message = message + str(allList.index(i) + 1) + '. ' + i
     MOLi_list.close()
     return message
 
